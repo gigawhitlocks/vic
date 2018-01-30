@@ -8,7 +8,7 @@
 # docker tag vic-test 192.168.31.15/library/vic-integration-test:1.x
 # docker push 192.168.31.15/library/vic-integration-test:1.x
 
-FROM golang:1.8
+FROM golang:1.9.3
 
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
@@ -24,7 +24,7 @@ RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - && \
     sshpass \
     ant \
 	ant-optional \
-    openjdk-7-jdk \
+    openjdk-8-jdk \
     rpcbind \
     nfs-common \
     unzip \
@@ -57,7 +57,7 @@ RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - && \
 
 RUN wget https://bootstrap.pypa.io/get-pip.py && \
     python ./get-pip.py  && \
-    pip install pyasn1 google-apitools==0.5.15 gsutil robotframework robotframework-sshlibrary robotframework-httplibrary requests dbbot robotframework-selenium2library --upgrade
+    pip install pyasn1 google-apitools==0.5.15 gsutil robotframework robotframework-sshlibrary robotframework-httplibrary requests dbbot robotframework-selenium2library robotframework-pabot --upgrade
 
 # Install docker, docker clients 1.11,1.12 and 1.13
 # Also install docker compose 1.13
@@ -87,9 +87,6 @@ RUN curl http://downloads.drone.io/release/linux/amd64/drone.tar.gz | tar zx && 
 
 RUN curl -sSL https://github.com/vmware/govmomi/releases/download/v0.16.0/govc_linux_amd64.gz | gzip -d > /usr/local/bin/govc && \
     chmod +x /usr/local/bin/govc
-
-RUN  wget https://launchpad.net/ubuntu/+source/wget/1.18-2ubuntu1/+build/10470166/+files/wget_1.18-2ubuntu1_amd64.deb && \
-     dpkg -i wget_1.18-2ubuntu1_amd64.deb
 
 # Add docker in docker support
 # version: docker:1.13-dind
