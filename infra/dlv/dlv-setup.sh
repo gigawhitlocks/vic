@@ -11,7 +11,11 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-# limitations under the License.!/bin/bash
+# limitations under the License.
+
+set -eo pipefail
+
+
 
 SSH="ssh -o StrictHostKeyChecking=no"
 SCP="scp -q -o StrictHostKeyChecking=no"
@@ -21,16 +25,15 @@ function usage() {
     exit 1
 }
 
-while getopts "h" flag
+while getopts "h:" flag
 do
     case $flag in
-
         h)
             # Optional
             export DLV_TARGET_HOST="$OPTARG"
             ;;
-
         *)
+            echo what
             usage
             ;;
     esac
@@ -45,8 +48,10 @@ fi
 DLV_BIN="$GOPATH/bin/dlv"
 
 if [ -z "${GOPATH}" -o -z "${GOROOT}" ]; then
-    echo GOROOT and GOPATH should be set to point to the current GOLANG enironment
-    exit 1
+    export GOPATH=$(go env | grep GOPATH | cut -d= -f2 | sed 's#"##g')
+    export GOROOT=$(go env | grep GOROOT | cut -d= -f2 | sed 's#"##g')
+    # echo GOROOT and GOPATH should be set to point to the current GOLANG enironment
+    # exit 1
 fi
 
 # copy dlv binary
@@ -63,7 +68,7 @@ echo done
 echo -n copying GOROOT environment..
 ${SSH} root@${DLV_TARGET_HOST} "mkdir -p /usr/local/go"
 ${SCP} -r ${GOROOT}/bin root@${DLV_TARGET_HOST}:/usr/local/go
-${SCP} -r ${GOROOT}/api root@${DLV_TARGET_HOST}:/usr/local/go
+# ${SCP} -r ${GOROOT}/api root@${DLV_TARGET_HOST}:/usr/local/go
 ${SCP} ${GOROOT}/VERSION root@${DLV_TARGET_HOST}:/usr/local/go
 ${SSH} root@${DLV_TARGET_HOST} "ln -f -s /usr/local/go/bin/go /usr/local/bin/go"
 echo done

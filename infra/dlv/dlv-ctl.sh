@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.!/bin/bash
-
+set -exo pipefail
 SSH="ssh -o StrictHostKeyChecking=no"
 SCP="scp -o StrictHostKeyChecking=no"
 
@@ -109,4 +109,4 @@ else
     usage
 fi
 
-echo $DLV_TARGET_HOST:$PORT
+dlv connect $DLV_TARGET_HOST:$PORT
