@@ -696,6 +696,7 @@ func (t *tether) handleSessionExit(session *SessionConfig) {
 
 	// set the stop time
 	session.StopTime = time.Now().UTC().Unix()
+	session.Finished = true
 
 	// this returns an arbitrary closure for invocation after the session status update
 	f := t.ops.HandleSessionExit(t.config, session)

@@ -94,6 +94,9 @@ type SessionConfig struct {
 	// The exit status of the process, if any
 	ExitStatus int `vic:"0.1" scope:"read-write" key:"status"`
 
+	// exit status is 0 until the process exits so here's a bool
+	Finished bool `vic:"0.1" scope:"read-write" key:"finished"`
+
 	Started string `vic:"0.1" scope:"read-write" key:"started"`
 
 	// Allow attach

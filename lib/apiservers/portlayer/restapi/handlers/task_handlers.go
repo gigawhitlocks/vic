@@ -238,10 +238,11 @@ func (handler *TaskHandlersImpl) InspectHandler(params tasks.InspectParams) midd
 	op.Debugf("Args: %#v", t.Cmd.Args)
 	op.Debugf("Running: %#v", t.StartTime)
 	op.Debugf("ExitCode: %#v", t.ExitStatus)
+	op.Debugf("Finished: %s", t.Finished)
 
 	res := &models.TaskInspectResponse{
 		ID:       t.ID,
-		Running:  t.Started == "true",
+		Running:  t.Finished,
 		ExitCode: int64(t.ExitStatus),
 		ProcessConfig: &models.ProcessConfig{
 			ExecPath: t.Cmd.Path,

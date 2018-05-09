@@ -255,6 +255,8 @@ type SessionConfig struct {
 
 	ExitStatus int `vic:"0.1" scope:"read-write" key:"status"`
 
+	Finished bool `vic:"0.1" scope:"read-write" key:"finished"`
+
 	Started string `vic:"0.1" scope:"read-write" key:"started"`
 
 	Restart bool `vic:"0.1" scope:"read-only" key:"restart"`
